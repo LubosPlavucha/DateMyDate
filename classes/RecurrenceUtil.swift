@@ -52,14 +52,14 @@ public class RecurrenceUtil {
                 let sortedDaysOfWeek = NSMutableArray(array: daysOfWeek!)
                 sortedDaysOfWeek.sortUsingSelector(Selector("compare:"))
                 
-                var firstWeekday = DateUtil.getWeekday(date, weekdayIndex: sortedDaysOfWeek.firstObject as Int, locale: locale!)
+                var firstWeekday = DateUtil.getWeekday(date, weekdayIndex: sortedDaysOfWeek.firstObject as! Int, locale: locale!)
                 
                 var loop = true
                 while(loop) {
                     
                     for weekdayIndex in sortedDaysOfWeek {
                         if DateUtil.isBeforeOrSameDate(date, secondDate: endDate!) {
-                            date = DateUtil.getWeekday(date, weekdayIndex: weekdayIndex as Int, locale: locale!)
+                            date = DateUtil.getWeekday(date, weekdayIndex: weekdayIndex as! Int, locale: locale!)
                             dates.append(date)
                         } else {
                             loop = false

@@ -261,7 +261,7 @@ public class DateUtil {
         dateFormatter.locale = locale
         let cal = NSCalendar(calendarIdentifier: NSGregorianCalendar)!
         let monthIndex = cal.components(.CalendarUnitMonth, fromDate: date).month
-        return dateFormatter.monthSymbols[monthIndex - 1] as String
+        return dateFormatter.monthSymbols[monthIndex - 1] as! String
     }
     
 }
