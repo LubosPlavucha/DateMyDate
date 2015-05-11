@@ -255,6 +255,28 @@ public class DateUtil {
     }
     
     
+    /** Comparing if first date is same day as second date ignoring time */
+    public class func isSameDay(firstDate: NSDate, secondDate: NSDate) -> Bool {
+        let firstDateDayBeginning = getBeginningOfDay(firstDate)
+        let secondDateDayBeginning = getBeginningOfDay(secondDate)
+        
+        let result = firstDateDayBeginning.compare(secondDateDayBeginning)
+        if result == .OrderedSame {
+            return true
+        }
+        return false
+    }
+    
+    
+    /** Comparing if first date is within given month ignoring time */
+    public class func isSameMonth(firstDate: NSDate, month: NSDate) -> Bool {
+        let cal = NSCalendar.currentCalendar()
+        var firsDateComp = cal.components(.CalendarUnitYear | .CalendarUnitMonth, fromDate: firstDate)
+        var monthDateComp = cal.components(.CalendarUnitYear | .CalendarUnitMonth, fromDate: month)
+        return firsDateComp.year == monthDateComp.year && firsDateComp.month == monthDateComp.month
+    }
+    
+    
     /** Returns localized month name for given date */
     public class func getMonthName(date: NSDate, locale: NSLocale) -> String {
         var dateFormatter = NSDateFormatter()
