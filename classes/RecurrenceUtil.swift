@@ -22,12 +22,12 @@ public class RecurrenceUtil {
             if DateUtil.isBeforeDate(endDateTmp, secondDate: beginDate) {
                 return dates
             }
-            // if end date is more than 2 years in future from begin date, set limit to 2 years
+            // if end date is more than 2 years in future from begin date, set limit to 1 year
             if DateUtil.isAfterDate(endDateTmp, secondDate: add1Year) {
                 endDate = add1Year
             }
         } else {
-            // if end date not specified -> set limit to 2 years
+            // if end date not specified -> set limit to 1 year
             endDate = add1Year
         }
         
