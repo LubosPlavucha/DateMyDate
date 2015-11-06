@@ -70,7 +70,7 @@ public class DateFormatUtils {
     /** Returns date patterns from all available locals. */
     public class func getDatePatterns() -> [String] {
         let result = NSMutableSet() // use Set to make the array unique
-        result.addObjectsFromArray(Load.datePatterns.values.array)
+        result.addObjectsFromArray(Array(Load.datePatterns.values))
         return result.allObjects as! [String]
     }
     
