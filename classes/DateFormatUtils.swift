@@ -21,7 +21,7 @@ public class DateFormatUtils {
             var dateFormatters = [NSLocale:NSDateFormatter]()
             for localeIdentifier in NSLocale.availableLocaleIdentifiers() {
                 
-                let locale = NSLocale(localeIdentifier: localeIdentifier as! String)
+                let locale = NSLocale(localeIdentifier: localeIdentifier )
                 
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.locale = locale
@@ -47,7 +47,7 @@ public class DateFormatUtils {
     public class func getDateFormatters(locales: [NSLocale]) -> [NSLocale:NSDateFormatter] {
         var result = [NSLocale:NSDateFormatter]()
         for (locale, dateFormatter) in Load.dateFormatters {
-            if contains(locales, locale) {
+            if locales.contains(locale) {
                 result[locale] = dateFormatter
             }
         }
@@ -59,7 +59,7 @@ public class DateFormatUtils {
     public class func getDatePatterns(locales: [NSLocale]) -> [NSLocale:String] {
         var result = [NSLocale:String]()
         for (locale, datePattern) in Load.datePatterns {
-            if contains(locales, locale) {
+            if locales.contains(locale) {
                 result[locale] = datePattern
             }
         }
@@ -69,7 +69,7 @@ public class DateFormatUtils {
    
     /** Returns date patterns from all available locals. */
     public class func getDatePatterns() -> [String] {
-        var result = NSMutableSet() // use Set to make the array unique
+        let result = NSMutableSet() // use Set to make the array unique
         result.addObjectsFromArray(Load.datePatterns.values.array)
         return result.allObjects as! [String]
     }
