@@ -76,9 +76,6 @@ public class RecurrenceUtil {
                     dates.append(date)
                     date = DateUtil.addMonths(date, monthsCount: interval)
                 }
-        
-            default:
-                return dates
         }
         return dates
     }
