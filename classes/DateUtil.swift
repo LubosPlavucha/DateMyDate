@@ -118,7 +118,7 @@ public class DateUtil {
     
     /** get first day of the week - time is set to the first second of the day */
     public class func getFirstDayOfWeek(date: NSDate, locale: NSLocale) -> NSDate {
-        let cal = NSCalendar(calendarIdentifier: NSGregorianCalendar)!
+        let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
         cal.locale = locale     // locale needs to be used here, because the first day of week depends on it (e.g. Sunday vs. Monday)
         let dateComp = cal.components(Attributes.flags.union(.Weekday), fromDate: date)
         dateComp.day = dateComp.day - dateComp.weekday + 1 // workaround, because setting directly weekdays is not working
@@ -131,7 +131,7 @@ public class DateUtil {
     
     /** get last day of the week - time is set to the last second of the day */
     public class func getLastDayOfWeek(date: NSDate, locale: NSLocale) -> NSDate {
-        let cal = NSCalendar(calendarIdentifier: NSGregorianCalendar)!
+        let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
         cal.locale = locale
         let dateComp = cal.components(Attributes.flags.union(.Weekday), fromDate: date)
         let weekdayCount = cal.weekdaySymbols.count
@@ -145,7 +145,7 @@ public class DateUtil {
     
     /** Get next weekday counting from the specified date, e.g. get next Friday from today. If today is the specified weekday, it returns today. */
     public class func getWeekday(date: NSDate, weekdayIndex: Int, locale: NSLocale) -> NSDate {
-        let cal = NSCalendar(calendarIdentifier: NSGregorianCalendar)!
+        let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
         cal.locale = locale
         
         let dateComp = cal.components([.Year, .Month, .Day, .Weekday], fromDate: date)
@@ -281,7 +281,7 @@ public class DateUtil {
     public class func getMonthName(date: NSDate, locale: NSLocale) -> String {
         let dateFormatter = NSDateFormatter()
         dateFormatter.locale = locale
-        let cal = NSCalendar(calendarIdentifier: NSGregorianCalendar)!
+        let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
         let monthIndex = cal.components(.Month, fromDate: date).month
         return dateFormatter.monthSymbols[monthIndex - 1] 
     }
