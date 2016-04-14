@@ -50,7 +50,7 @@ public class RecurrenceUtil {
  
                 // sort weekday indexes, since it is not guaranteed
                 let sortedDaysOfWeek = NSMutableArray(array: daysOfWeek!)
-                sortedDaysOfWeek.sortUsingSelector(Selector("compare:"))
+                sortedDaysOfWeek.sortUsingSelector(#selector(NSNumber.compare(_:)))
                 
                 var firstWeekday = DateUtil.getWeekday(date, weekdayIndex: sortedDaysOfWeek.firstObject as! Int, locale: locale!)
                 
