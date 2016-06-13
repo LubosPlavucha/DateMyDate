@@ -12,18 +12,20 @@ public class RecurrenceUtil {
 
     
     /** Generates dates from recurrence pattern. If no end date is specified, it generates the dates for 2 years in future. Weekdays are indexed between 1 to 7 based on the indexing from the NSDateComponents.weekdays. */
-    public class func generateDatesFromRecurrence(frequency: Frequency, interval: Int, daysOfWeek:[Int]? = nil, locale: NSLocale? = nil, beginDate: NSDate, var endDate: NSDate?) -> [NSDate] {
+    public class func generateDatesFromRecurrence(frequency: Frequency, interval: Int, daysOfWeek:[Int]? = nil, locale: NSLocale? = nil, beginDate: NSDate, endDate: NSDate?) -> [NSDate] {
         
+        var endDate = endDate
         var dates:[NSDate] = []
         
         let add1Year = DateUtil.addYears(beginDate, yearCount: 1)
-        if let endDateTmp = endDate {
+        
+        if endDate != nil {
             // if end date is before begin date -> return empty
-            if DateUtil.isBeforeDate(endDateTmp, secondDate: beginDate) {
+            if DateUtil.isBeforeDate(endDate!, secondDate: beginDate) {
                 return dates
             }
             // if end date is more than 2 years in future from begin date, set limit to 1 year
-            if DateUtil.isAfterDate(endDateTmp, secondDate: add1Year) {
+            if DateUtil.isAfterDate(endDate!, secondDate: add1Year) {
                 endDate = add1Year
             }
         } else {
