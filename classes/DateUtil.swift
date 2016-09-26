@@ -9,13 +9,13 @@
 import Foundation
 
 
-public class DateUtil {
+open class DateUtil {
     
     
     // as of now, swift doesn't have static variables for class -> make use of struct for this
     struct Attributes {
 
-        private static let flags: NSCalendarUnit = [.Year, .Month, .Day, .Hour, .Minute, .Second]
+        fileprivate static let flags: NSCalendar.Unit = [.year, .month, .day, .hour, .minute, .second]
 
     }
     
@@ -23,193 +23,193 @@ public class DateUtil {
     
     
     /** get day X months before specified day - time is set to the first second of the day */
-    public class func getXMonthsAgo(date: NSDate, monthCount: Int) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = cal.components(Attributes.flags, fromDate: date)
-        dateComp.month = dateComp.month - monthCount
+    open class func getXMonthsAgo(_ date: Date, monthCount: Int) -> Date {
+        let cal = Calendar.current
+        var dateComp = (cal as NSCalendar).components(Attributes.flags, from: date)
+        dateComp.month = dateComp.month! - monthCount
         dateComp.hour = 0
         dateComp.minute = 0
         dateComp.second = 0
-        return cal.dateFromComponents(dateComp)!
+        return cal.date(from: dateComp)!
     }
     
     
     /** Add number of days to the date */
-    public class func addDays(date: NSDate, daysCount: Int) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = NSDateComponents()
+    open class func addDays(_ date: Date, daysCount: Int) -> Date {
+        let cal = Calendar.current
+        var dateComp = DateComponents()
         dateComp.day = daysCount
-        return cal.dateByAddingComponents(dateComp, toDate: date, options: [])!
+        return (cal as NSCalendar).date(byAdding: dateComp, to: date, options: [])!
     }
     
     
     /** Add number of weeks to the date */
-    public class func addWeeks(date: NSDate, weeksCount: Int) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = NSDateComponents()
+    open class func addWeeks(_ date: Date, weeksCount: Int) -> Date {
+        let cal = Calendar.current
+        var dateComp = DateComponents()
         dateComp.weekOfYear = weeksCount
-        return cal.dateByAddingComponents(dateComp, toDate: date, options: [])!
+        return (cal as NSCalendar).date(byAdding: dateComp, to: date, options: [])!
     }
     
     
     /** Add number of months to the date */
-    public class func addMonths(date: NSDate, monthsCount: Int) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = NSDateComponents()
+    open class func addMonths(_ date: Date, monthsCount: Int) -> Date {
+        let cal = Calendar.current
+        var dateComp = DateComponents()
         dateComp.month = monthsCount
-        return cal.dateByAddingComponents(dateComp, toDate: date, options: [])!
+        return (cal as NSCalendar).date(byAdding: dateComp, to: date, options: [])!
     }
     
     
     /** Add number of years to the date */
-    public class func addYears(date: NSDate, yearCount: Int) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = NSDateComponents()
+    open class func addYears(_ date: Date, yearCount: Int) -> Date {
+        let cal = Calendar.current
+        var dateComp = DateComponents()
         dateComp.year = yearCount
-        return cal.dateByAddingComponents(dateComp, toDate: date, options: [])!
+        return (cal as NSCalendar).date(byAdding: dateComp, to: date, options: [])!
     }
     
     
     /** get today - time is set to the first second of the day */
-    public class func getBeginningOfDay(date: NSDate) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = cal.components(Attributes.flags, fromDate: date)
+    open class func getBeginningOfDay(_ date: Date) -> Date {
+        let cal = Calendar.current
+        var dateComp = (cal as NSCalendar).components(Attributes.flags, from: date)
         dateComp.hour = 0
         dateComp.minute = 0
         dateComp.second = 0
-        return cal.dateFromComponents(dateComp)!
+        return cal.date(from: dateComp)!
     }
     
     
     /** get today - time is set to the last second of the day */
-    public class func getEndOfDay(date: NSDate) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = cal.components(Attributes.flags, fromDate: date)
-        dateComp.hour = cal.rangeOfUnit(.Hour, inUnit: .Day, forDate: date).length - 1
-        dateComp.minute = cal.rangeOfUnit(.Minute, inUnit: .Hour, forDate: date).length - 1
-        dateComp.second = cal.rangeOfUnit(.Second, inUnit: .Minute, forDate: date).length - 1
-        return cal.dateFromComponents(dateComp)!
+    open class func getEndOfDay(_ date: Date) -> Date {
+        let cal = Calendar.current
+        var dateComp = (cal as NSCalendar).components(Attributes.flags, from: date)
+        dateComp.hour = (cal as NSCalendar).range(of: .hour, in: .day, for: date).length - 1
+        dateComp.minute = (cal as NSCalendar).range(of: .minute, in: .hour, for: date).length - 1
+        dateComp.second = (cal as NSCalendar).range(of: .second, in: .minute, for: date).length - 1
+        return cal.date(from: dateComp)!
     }
     
     
     /** get first day of the month - time is set to the first second of the day */
-    public class func getFirstDayOfMonth(date: NSDate) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = cal.components(Attributes.flags, fromDate: date)
+    open class func getFirstDayOfMonth(_ date: Date) -> Date {
+        let cal = Calendar.current
+        var dateComp = (cal as NSCalendar).components(Attributes.flags, from: date)
         dateComp.day = 1
         dateComp.hour = 0
         dateComp.minute = 0
         dateComp.second = 0
-        return cal.dateFromComponents(dateComp)!
+        return cal.date(from: dateComp)!
     }
     
     
     /** get last day of the month - time is set to the last second of the day */
-    public class func getLastDayOfMonth(date: NSDate) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = cal.components(Attributes.flags, fromDate: date)
-        dateComp.day = cal.rangeOfUnit(.Day, inUnit: .Month, forDate: date).length
-        dateComp.hour = cal.rangeOfUnit(.Hour, inUnit: .Day, forDate: date).length - 1
-        dateComp.minute = cal.rangeOfUnit(.Minute, inUnit: .Hour, forDate: date).length - 1
-        dateComp.second = cal.rangeOfUnit(.Second, inUnit: .Minute, forDate: date).length - 1
-        return cal.dateFromComponents(dateComp)!
+    open class func getLastDayOfMonth(_ date: Date) -> Date {
+        let cal = Calendar.current
+        var dateComp = (cal as NSCalendar).components(Attributes.flags, from: date)
+        dateComp.day = (cal as NSCalendar).range(of: .day, in: .month, for: date).length
+        dateComp.hour = (cal as NSCalendar).range(of: .hour, in: .day, for: date).length - 1
+        dateComp.minute = (cal as NSCalendar).range(of: .minute, in: .hour, for: date).length - 1
+        dateComp.second = (cal as NSCalendar).range(of: .second, in: .minute, for: date).length - 1
+        return cal.date(from: dateComp)!
     }
     
     
     /** get first day of the week - time is set to the first second of the day */
-    public class func getFirstDayOfWeek(date: NSDate, locale: NSLocale) -> NSDate {
-        let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+    open class func getFirstDayOfWeek(_ date: Date, locale: Locale) -> Date {
+        var cal = Calendar(identifier: Calendar.Identifier.gregorian)
         cal.locale = locale     // locale needs to be used here, because the first day of week depends on it (e.g. Sunday vs. Monday)
-        let dateComp = cal.components(Attributes.flags.union(.Weekday), fromDate: date)
-        dateComp.day = dateComp.day - dateComp.weekday + 1 // workaround, because setting directly weekdays is not working
+        var dateComp = (cal as NSCalendar).components(Attributes.flags.union(.weekday), from: date)
+        dateComp.day = dateComp.day! - dateComp.weekday! + 1 // workaround, because setting directly weekdays is not working
         dateComp.hour = 0
         dateComp.minute = 0
         dateComp.second = 0
-        return cal.dateFromComponents(dateComp)!
+        return cal.date(from: dateComp)!
     }
     
     
     /** get last day of the week - time is set to the last second of the day */
-    public class func getLastDayOfWeek(date: NSDate, locale: NSLocale) -> NSDate {
-        let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+    open class func getLastDayOfWeek(_ date: Date, locale: Locale) -> Date {
+        var cal = Calendar(identifier: Calendar.Identifier.gregorian)
         cal.locale = locale
-        let dateComp = cal.components(Attributes.flags.union(.Weekday), fromDate: date)
+        var dateComp = (cal as NSCalendar).components(Attributes.flags.union(.weekday), from: date)
         let weekdayCount = cal.weekdaySymbols.count
-        dateComp.day = dateComp.day + (weekdayCount - dateComp.weekday) // workaround, because setting directly weekdays is not working
-        dateComp.hour = cal.rangeOfUnit(.Hour, inUnit: .Day, forDate: date).length - 1
-        dateComp.minute = cal.rangeOfUnit(.Minute, inUnit: .Hour, forDate: date).length - 1
-        dateComp.second = cal.rangeOfUnit(.Second, inUnit: .Minute, forDate: date).length - 1
-        return cal.dateFromComponents(dateComp)!
+        dateComp.day = dateComp.day! + (weekdayCount - dateComp.weekday!) // workaround, because setting directly weekdays is not working
+        dateComp.hour = (cal as NSCalendar).range(of: .hour, in: .day, for: date).length - 1
+        dateComp.minute = (cal as NSCalendar).range(of: .minute, in: .hour, for: date).length - 1
+        dateComp.second = (cal as NSCalendar).range(of: .second, in: .minute, for: date).length - 1
+        return cal.date(from: dateComp)!
     }
     
     
     /** Get next weekday counting from the specified date, e.g. get next Friday from today. If today is the specified weekday, it returns today. */
-    public class func getWeekday(date: NSDate, weekdayIndex: Int, locale: NSLocale) -> NSDate {
-        let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+    open class func getWeekday(_ date: Date, weekdayIndex: Int, locale: Locale) -> Date {
+        var cal = Calendar(identifier: Calendar.Identifier.gregorian)
         cal.locale = locale
         
-        let dateComp = cal.components([.Year, .Month, .Day, .Weekday], fromDate: date)
+        var dateComp = (cal as NSCalendar).components([.year, .month, .day, .weekday], from: date)
         
-        if weekdayIndex >= dateComp.weekday {
-            dateComp.day = dateComp.day + (weekdayIndex - dateComp.weekday)
-            return cal.dateFromComponents(dateComp)!
+        if weekdayIndex >= dateComp.weekday! {
+            dateComp.day = dateComp.day! + (weekdayIndex - dateComp.weekday!)
+            return cal.date(from: dateComp)!
         } else {
             // next weekday is in the next week
             let weekdayCount = cal.weekdaySymbols.count
-            dateComp.day = dateComp.day - (dateComp.weekday - weekdayIndex) + weekdayCount
-            return cal.dateFromComponents(dateComp)!
+            dateComp.day = dateComp.day! - (dateComp.weekday! - weekdayIndex) + weekdayCount
+            return cal.date(from: dateComp)!
         }
     }
     
     
     /** get first day of the year - time is set to the first second of the day */
-    public class func getFirstDayOfYear(year: Int) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = NSDateComponents()
+    open class func getFirstDayOfYear(_ year: Int) -> Date {
+        let cal = Calendar.current
+        var dateComp = DateComponents()
         dateComp.year = year
         dateComp.month = 1
         dateComp.day = 1
         dateComp.hour = 0
         dateComp.minute = 0
         dateComp.second = 0
-        return cal.dateFromComponents(dateComp)!
+        return cal.date(from: dateComp)!
     }
     
     
     /** get last day of the year - time is set to the last second of the day */
-    public class func getLastDayOfYear(year: Int) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = NSDateComponents()
+    open class func getLastDayOfYear(_ year: Int) -> Date {
+        let cal = Calendar.current
+        var dateComp = DateComponents()
         dateComp.year = year
-        dateComp.month = cal.rangeOfUnit(.Month, inUnit: .Year, forDate: cal.dateFromComponents(dateComp)!).length
-        dateComp.day = cal.rangeOfUnit(.Day, inUnit: .Month, forDate: cal.dateFromComponents(dateComp)!).length
-        dateComp.hour = cal.rangeOfUnit(.Hour, inUnit: .Day, forDate: cal.dateFromComponents(dateComp)!).length - 1
-        dateComp.minute = cal.rangeOfUnit(.Minute, inUnit: .Hour, forDate: cal.dateFromComponents(dateComp)!).length - 1
-        dateComp.second = cal.rangeOfUnit(.Second, inUnit: .Minute, forDate: cal.dateFromComponents(dateComp)!).length - 1
-        return cal.dateFromComponents(dateComp)!
+        dateComp.month = (cal as NSCalendar).range(of: .month, in: .year, for: cal.date(from: dateComp)!).length
+        dateComp.day = (cal as NSCalendar).range(of: .day, in: .month, for: cal.date(from: dateComp)!).length
+        dateComp.hour = (cal as NSCalendar).range(of: .hour, in: .day, for: cal.date(from: dateComp)!).length - 1
+        dateComp.minute = (cal as NSCalendar).range(of: .minute, in: .hour, for: cal.date(from: dateComp)!).length - 1
+        dateComp.second = (cal as NSCalendar).range(of: .second, in: .minute, for: cal.date(from: dateComp)!).length - 1
+        return cal.date(from: dateComp)!
     }
 
     
     /** get tomorrow - time is set to the first second of the day */
-    public class func getTomorrow() -> NSDate {
-        let cal = NSCalendar.currentCalendar()
-        let today = NSDate()
-        let dateComp = cal.components(Attributes.flags, fromDate: today)
-        dateComp.day = dateComp.day + 1
+    open class func getTomorrow() -> Date {
+        let cal = Calendar.current
+        let today = Date()
+        var dateComp = (cal as NSCalendar).components(Attributes.flags, from: today)
+        dateComp.day = dateComp.day! + 1
         dateComp.hour = 0
         dateComp.minute = 0
         dateComp.second = 0
-        return cal.dateFromComponents(dateComp)!
+        return cal.date(from: dateComp)!
     }
     
     
     /** Comparing if first date is before second date ignoring time */
-    public class func isBeforeDate(firstDate: NSDate, secondDate: NSDate) -> Bool {
+    open class func isBeforeDate(_ firstDate: Date, secondDate: Date) -> Bool {
         let firstDateDayBeginning = getBeginningOfDay(firstDate)
         let secondDateDayBeginning = getBeginningOfDay(secondDate)
 
         let result = firstDateDayBeginning.compare(secondDateDayBeginning)
-        if result == .OrderedAscending {
+        if result == .orderedAscending {
             return true
         }
         return false
@@ -217,12 +217,12 @@ public class DateUtil {
     
     
     /** Comparing if first date is before second date or it is same date ignoring time */
-    public class func isBeforeOrSameDate(firstDate: NSDate, secondDate: NSDate) -> Bool {
+    open class func isBeforeOrSameDate(_ firstDate: Date, secondDate: Date) -> Bool {
         let firstDateDayBeginning = getBeginningOfDay(firstDate)
         let secondDateDayBeginning = getBeginningOfDay(secondDate)
         
         let result = firstDateDayBeginning.compare(secondDateDayBeginning)
-        if result == .OrderedAscending || result == .OrderedSame {
+        if result == .orderedAscending || result == .orderedSame {
             return true
         }
         return false
@@ -230,12 +230,12 @@ public class DateUtil {
     
     
     /** Comparing if first date is after second date ignoring time */
-    public class func isAfterDate(firstDate: NSDate, secondDate: NSDate) -> Bool {
+    open class func isAfterDate(_ firstDate: Date, secondDate: Date) -> Bool {
         let firstDateDayBeginning = getBeginningOfDay(firstDate)
         let secondDateDayBeginning = getBeginningOfDay(secondDate)
         
         let result = firstDateDayBeginning.compare(secondDateDayBeginning)
-        if result == .OrderedDescending {
+        if result == .orderedDescending {
             return true
         }
         return false
@@ -243,12 +243,12 @@ public class DateUtil {
     
     
     /** Comparing if first date is after second date or it is same date ignoring time */
-    public class func isAfterOrSameDate(firstDate: NSDate, secondDate: NSDate) -> Bool {
+    open class func isAfterOrSameDate(_ firstDate: Date, secondDate: Date) -> Bool {
         let firstDateDayBeginning = getBeginningOfDay(firstDate)
         let secondDateDayBeginning = getBeginningOfDay(secondDate)
         
         let result = firstDateDayBeginning.compare(secondDateDayBeginning)
-        if result == .OrderedDescending || result == .OrderedSame {
+        if result == .orderedDescending || result == .orderedSame {
             return true
         }
         return false
@@ -256,12 +256,12 @@ public class DateUtil {
     
     
     /** Comparing if first date is same day as second date ignoring time */
-    public class func isSameDay(firstDate: NSDate, secondDate: NSDate) -> Bool {
+    open class func isSameDay(_ firstDate: Date, secondDate: Date) -> Bool {
         let firstDateDayBeginning = getBeginningOfDay(firstDate)
         let secondDateDayBeginning = getBeginningOfDay(secondDate)
         
         let result = firstDateDayBeginning.compare(secondDateDayBeginning)
-        if result == .OrderedSame {
+        if result == .orderedSame {
             return true
         }
         return false
@@ -269,21 +269,21 @@ public class DateUtil {
     
     
     /** Comparing if first date is within given month ignoring time */
-    public class func isSameMonth(firstDate: NSDate, month: NSDate) -> Bool {
-        let cal = NSCalendar.currentCalendar()
-        let firsDateComp = cal.components([.Year, .Month], fromDate: firstDate)
-        let monthDateComp = cal.components([.Year, .Month], fromDate: month)
+    open class func isSameMonth(_ firstDate: Date, month: Date) -> Bool {
+        let cal = Calendar.current
+        let firsDateComp = (cal as NSCalendar).components([.year, .month], from: firstDate)
+        let monthDateComp = (cal as NSCalendar).components([.year, .month], from: month)
         return firsDateComp.year == monthDateComp.year && firsDateComp.month == monthDateComp.month
     }
     
     
     /** Returns localized month name for given date */
-    public class func getMonthName(date: NSDate, locale: NSLocale) -> String {
-        let dateFormatter = NSDateFormatter()
+    open class func getMonthName(_ date: Date, locale: Locale) -> String {
+        let dateFormatter = DateFormatter()
         dateFormatter.locale = locale
-        let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-        let monthIndex = cal.components(.Month, fromDate: date).month
-        return dateFormatter.monthSymbols[monthIndex - 1] 
+        let cal = Calendar(identifier: Calendar.Identifier.gregorian)
+        let monthIndex = (cal as NSCalendar).components(.month, from: date).month
+        return dateFormatter.monthSymbols[monthIndex! - 1] 
     }
     
 }

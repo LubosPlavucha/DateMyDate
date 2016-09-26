@@ -3,19 +3,19 @@ import Foundation
 import EventKit
 
 
-public class RecurrenceUtil {
+open class RecurrenceUtil {
     
     
     public enum Frequency {
-        case DAILY, WEEKLY, MONTHLY
+        case daily, weekly, monthly
     }
 
     
     /** Generates dates from recurrence pattern. If no end date is specified, it generates the dates for 2 years in future. Weekdays are indexed between 1 to 7 based on the indexing from the NSDateComponents.weekdays. */
-    public class func generateDatesFromRecurrence(frequency: Frequency, interval: Int, daysOfWeek:[Int]? = nil, locale: NSLocale? = nil, beginDate: NSDate, endDate: NSDate?) -> [NSDate] {
+    open class func generateDatesFromRecurrence(_ frequency: Frequency, interval: Int, daysOfWeek:[Int]? = nil, locale: Locale? = nil, beginDate: Date, endDate: Date?) -> [Date] {
         
         var endDate = endDate
-        var dates:[NSDate] = []
+        var dates:[Date] = []
         
         let add1Year = DateUtil.addYears(beginDate, yearCount: 1)
         
@@ -37,7 +37,7 @@ public class RecurrenceUtil {
         
         switch frequency {
             
-            case .DAILY:
+            case .daily:
             
                 while(DateUtil.isBeforeOrSameDate(date, secondDate: endDate!)) {
                     dates.append(date)
@@ -45,14 +45,14 @@ public class RecurrenceUtil {
                 }
             
             
-            case .WEEKLY:
+            case .weekly:
                 
                 assert(daysOfWeek != nil && !daysOfWeek!.isEmpty && locale != nil)
                 // first get the first date according to the weekday -> this doesn't have to correspond to the begin date - e.g. begin data can be on Monday, but only Sundays are included in the weekday recurrence (which is in US calendar already the next week) -> first date in the computation needs to be set to Sunday
  
                 // sort weekday indexes, since it is not guaranteed
                 let sortedDaysOfWeek = NSMutableArray(array: daysOfWeek!)
-                sortedDaysOfWeek.sortUsingSelector(#selector(NSNumber.compare(_:)))
+                sortedDaysOfWeek.sort(using: #selector(NSNumber.compare(_:)))
                 
                 var firstWeekday = DateUtil.getWeekday(date, weekdayIndex: sortedDaysOfWeek.firstObject as! Int, locale: locale!)
                 
@@ -71,7 +71,7 @@ public class RecurrenceUtil {
                     date = firstWeekday
                 }
             
-            case .MONTHLY:
+            case .monthly:
             
                 // INFO: currently only 1 day in month is considered - the first one is begin date
                 while(DateUtil.isBeforeOrSameDate(date, secondDate: endDate!)) {
